@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "873556823155",
+    "project_id": "mystory-a14cd",
+    "storage_bucket": "mystory-a14cd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:873556823155:android:ece256d55a8e8c21076e06",
+        "android_client_info": {
+          "package_name": "com.revens.my_story"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "873556823155-u83d30g8h25g39gmbcv7q32711giiiis.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.revens.my_story",
+            "certificate_hash": "d92bad0536a1e2f35c72263a92ccfd932ad6aef9"
+          }
+        },
+        {
+          "client_id": "873556823155-ji5scikpnp0rmdd38h4grufj6pg97s9o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAdhRzpa6mZdwp5dp1WvVu6ZEM0ai0F6OQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "873556823155-ji5scikpnp0rmdd38h4grufj6pg97s9o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
