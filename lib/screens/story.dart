@@ -3,15 +3,16 @@ import 'dart:math';
 
 import 'package:appodeal_flutter/appodeal_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:country_codes/country_codes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_story/screens/new_story.dart';
 import 'package:my_story/screens/profile.dart';
 import 'package:my_story/services/story_data_service.dart';
 import 'package:my_story/services/user_local_data.dart';
+import 'package:translator/translator.dart';
 
 import '../generated/l10n.dart';
 import '../services/user.dart';
@@ -43,6 +44,7 @@ class _StoryState extends State<Story> {
   bool isReadedStory = false;
   bool isSearchingStory = true;
   String lastStory = '';
+  String story = '';
 
   FontWeight fontWeight = FontWeight.w700;
 
@@ -359,7 +361,7 @@ class _StoryState extends State<Story> {
                                 top: 15.0,
                                 bottom: 15.0),
                             child: Text(
-                              StoryDataService.story,
+                              story,
                               style: GoogleFonts.roboto(
                                   textStyle: TextStyle(
                                 letterSpacing:
@@ -1139,6 +1141,8 @@ class _StoryState extends State<Story> {
         });
       }
 
+      story = StoryDataService.story;
+
       await StoryService().loadAdditionalInfoStory();
 
       await UserLocalData().getLastStoryId().then((value) {
@@ -1173,7 +1177,6 @@ class _StoryState extends State<Story> {
         });
       }
     } on FirebaseException catch (e) {
-      print('FIREBASE EXCEPTION: ${e.message}');
       popUpDialog(
           context: context,
           title: S.of(context).notification_titleError,
@@ -1223,7 +1226,7 @@ class _StoryState extends State<Story> {
         ),
         builder: (cont) {
           return SizedBox(
-            height: 100,
+            height: 170,
             child: Padding(
               padding: const EdgeInsets.all(10.0),
               child: Column(
@@ -1253,6 +1256,51 @@ class _StoryState extends State<Story> {
                         child: Center(
                           child: Text(
                             S.of(context).story_buttonGoToAuthor,
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.roboto(
+                                textStyle: const TextStyle(
+                              letterSpacing: 0.5,
+                              fontSize: 23,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.white,
+                            )),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    height: 60,
+                    width: double.infinity,
+                    margin: const EdgeInsets.only(
+                        left: 10.0, right: 10.0, bottom: 10.0),
+                    decoration: BoxDecoration(
+                        color: Colors.blue,
+                        borderRadius: BorderRadius.circular(25.0)),
+                    child: Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(25.0),
+                        onTap: () async {
+                          final translator = GoogleTranslator();
+
+                          await CountryCodes.init();
+                          final Locale deviceLocale =
+                              CountryCodes.getDeviceLocale()!;
+
+                          translator
+                              .translate(StoryDataService.story,
+                                  to: deviceLocale.languageCode)
+                              .then((value) {
+                            setState(() {
+                              story = value.text;
+                            });
+                            Navigator.of(cont).pop();
+                          });
+                        },
+                        child: Center(
+                          child: Text(
+                            'Translate',
                             textAlign: TextAlign.center,
                             style: GoogleFonts.roboto(
                                 textStyle: const TextStyle(
