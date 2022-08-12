@@ -3,6 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:my_story/main.dart';
 import 'package:my_story/screens/profile_settings.dart';
 import 'package:my_story/screens/sign_up.dart';
@@ -372,7 +373,18 @@ class _SignInState extends State<SignIn> {
                             clipBehavior: Clip.antiAlias,
                             color: Colors.redAccent,
                             child: InkWell(
-                              onTap: () {},
+                              onTap: () async {
+                                setState(() {
+                                  isLoading = true;
+                                });
+                                await signInWithGoogle().whenComplete(() {
+                                  setState(() {
+                                    isLoading = false;
+                                  });
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => const Home()));
+                                });
+                              },
                               child: Center(
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -438,5 +450,19 @@ class _SignInState extends State<SignIn> {
               ),
       ),
     );
+  }
+
+  Future<UserCredential> signInWithGoogle() async {
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
+
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+
+    return await FirebaseAuth.instance.signInWithCredential(credential);
   }
 }
