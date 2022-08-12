@@ -218,6 +218,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Next story"),
         "story_buttonReadStory":
             MessageLookupByLibrary.simpleMessage("Read story"),
+        "story_buttonTranslate":
+            MessageLookupByLibrary.simpleMessage("Translate"),
         "story_dateDayBeforeYesterday":
             MessageLookupByLibrary.simpleMessage("The day before yesterday"),
         "story_dateFiveDaysAgo":

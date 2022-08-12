@@ -204,6 +204,8 @@
   "@story_buttonNextStory": {},
   "story_buttonReadStory": "lire",
   "@story_buttonReadStory": {},
+  "story_buttonTranslate": "Traduire",
+  "@story_buttonTranslate": {},
   "story_dateDayBeforeYesterday": "Il y a un jour",
   "@story_dateDayBeforeYesterday": {},
   "story_dateFiveDaysAgo": "il y a 5 jours",

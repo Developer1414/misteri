@@ -1070,6 +1070,16 @@ class S {
     );
   }
 
+  /// `Translate`
+  String get story_buttonTranslate {
+    return Intl.message(
+      'Translate',
+      name: 'story_buttonTranslate',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `The day before yesterday`
   String get story_dateDayBeforeYesterday {
     return Intl.message(

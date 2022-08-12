@@ -1300,7 +1300,7 @@ class _StoryState extends State<Story> {
                         },
                         child: Center(
                           child: Text(
-                            'Translate',
+                            S.of(context).story_buttonTranslate,
                             textAlign: TextAlign.center,
                             style: GoogleFonts.roboto(
                                 textStyle: const TextStyle(

@@ -204,6 +204,8 @@
   "@story_buttonNextStory": {},
   "story_buttonReadStory": "Read story",
   "@story_buttonReadStory": {},
+  "story_buttonTranslate": "Translate",
+  "@story_buttonTranslate": {},
   "story_dateDayBeforeYesterday": "The day before yesterday",
   "@story_dateDayBeforeYesterday": {},
   "story_dateFiveDaysAgo": "5 days ago",

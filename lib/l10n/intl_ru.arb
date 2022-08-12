@@ -204,6 +204,8 @@
   "@story_buttonNextStory": {},
   "story_buttonReadStory": "Читать",
   "@story_buttonReadStory": {},
+  "story_buttonTranslate": "Перевести",
+  "@story_buttonTranslate": {},
   "story_dateDayBeforeYesterday": "Позавчера",
   "@story_dateDayBeforeYesterday": {},
   "story_dateFiveDaysAgo": "5 дней назад",
