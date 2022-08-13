@@ -110,6 +110,28 @@ class MessageLookup extends MessageLookupByLibrary {
             "You didn\'t write the title!"),
         "newStory_shortStory": MessageLookupByLibrary.simpleMessage(
             "The story must be at least 50 words!"),
+        "newStory_stepAdditional":
+            MessageLookupByLibrary.simpleMessage("Addition"),
+        "newStory_stepAdditionalContent": MessageLookupByLibrary.simpleMessage(
+            "Additional settings for your story:"),
+        "newStory_stepButtonToDraft":
+            MessageLookupByLibrary.simpleMessage("Draft"),
+        "newStory_stepCategory":
+            MessageLookupByLibrary.simpleMessage("Category"),
+        "newStory_stepCategoryContent": MessageLookupByLibrary.simpleMessage(
+            "Select a category(s) for your story:"),
+        "newStory_stepCompletion":
+            MessageLookupByLibrary.simpleMessage("Completion"),
+        "newStory_stepLanguage":
+            MessageLookupByLibrary.simpleMessage("Language"),
+        "newStory_stepLanguageContent": MessageLookupByLibrary.simpleMessage(
+            "Select the language in which you wrote the story:"),
+        "newStory_stepStory": MessageLookupByLibrary.simpleMessage("Story"),
+        "newStory_stepStoryContent":
+            MessageLookupByLibrary.simpleMessage("Write your story:"),
+        "newStory_stepTitle": MessageLookupByLibrary.simpleMessage("Header"),
+        "newStory_stepTitleContent": MessageLookupByLibrary.simpleMessage(
+            "Write the title of your story:"),
         "newStory_storyCategoryTitle":
             MessageLookupByLibrary.simpleMessage("History category"),
         "newStory_storyLanguage_textFieldMyLanguage":

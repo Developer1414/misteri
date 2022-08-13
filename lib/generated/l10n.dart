@@ -590,6 +590,126 @@ class S {
     );
   }
 
+  /// `Addition`
+  String get newStory_stepAdditional {
+    return Intl.message(
+      'Addition',
+      name: 'newStory_stepAdditional',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Additional settings for your story:`
+  String get newStory_stepAdditionalContent {
+    return Intl.message(
+      'Additional settings for your story:',
+      name: 'newStory_stepAdditionalContent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Draft`
+  String get newStory_stepButtonToDraft {
+    return Intl.message(
+      'Draft',
+      name: 'newStory_stepButtonToDraft',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Category`
+  String get newStory_stepCategory {
+    return Intl.message(
+      'Category',
+      name: 'newStory_stepCategory',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select a category(s) for your story:`
+  String get newStory_stepCategoryContent {
+    return Intl.message(
+      'Select a category(s) for your story:',
+      name: 'newStory_stepCategoryContent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Completion`
+  String get newStory_stepCompletion {
+    return Intl.message(
+      'Completion',
+      name: 'newStory_stepCompletion',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Language`
+  String get newStory_stepLanguage {
+    return Intl.message(
+      'Language',
+      name: 'newStory_stepLanguage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select the language in which you wrote the story:`
+  String get newStory_stepLanguageContent {
+    return Intl.message(
+      'Select the language in which you wrote the story:',
+      name: 'newStory_stepLanguageContent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Story`
+  String get newStory_stepStory {
+    return Intl.message(
+      'Story',
+      name: 'newStory_stepStory',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Write your story:`
+  String get newStory_stepStoryContent {
+    return Intl.message(
+      'Write your story:',
+      name: 'newStory_stepStoryContent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Header`
+  String get newStory_stepTitle {
+    return Intl.message(
+      'Header',
+      name: 'newStory_stepTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Write the title of your story:`
+  String get newStory_stepTitleContent {
+    return Intl.message(
+      'Write the title of your story:',
+      name: 'newStory_stepTitleContent',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `History category`
   String get newStory_storyCategoryTitle {
     return Intl.message(

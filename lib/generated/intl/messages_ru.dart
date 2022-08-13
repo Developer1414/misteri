@@ -112,6 +112,27 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Вы не написали заголовок!"),
         "newStory_shortStory": MessageLookupByLibrary.simpleMessage(
             "В истории должно быть не менее 50 слов!"),
+        "newStory_stepAdditional":
+            MessageLookupByLibrary.simpleMessage("Дополнение"),
+        "newStory_stepAdditionalContent": MessageLookupByLibrary.simpleMessage(
+            "Дополнительные настройки для вашей истории:"),
+        "newStory_stepButtonToDraft":
+            MessageLookupByLibrary.simpleMessage("В черновик"),
+        "newStory_stepCategory":
+            MessageLookupByLibrary.simpleMessage("Категория"),
+        "newStory_stepCategoryContent": MessageLookupByLibrary.simpleMessage(
+            "Выберите категорию(ии) для вашей истории:"),
+        "newStory_stepCompletion":
+            MessageLookupByLibrary.simpleMessage("Завершение"),
+        "newStory_stepLanguage": MessageLookupByLibrary.simpleMessage("Язык"),
+        "newStory_stepLanguageContent": MessageLookupByLibrary.simpleMessage(
+            "Выберите язык на котором Вы написали историю:"),
+        "newStory_stepStory": MessageLookupByLibrary.simpleMessage("История"),
+        "newStory_stepStoryContent":
+            MessageLookupByLibrary.simpleMessage("Напишите свою историю:"),
+        "newStory_stepTitle": MessageLookupByLibrary.simpleMessage("Заголовок"),
+        "newStory_stepTitleContent": MessageLookupByLibrary.simpleMessage(
+            "Напишите название вашей истории:"),
         "newStory_storyCategoryTitle":
             MessageLookupByLibrary.simpleMessage("Категория истории"),
         "newStory_storyLanguage_textFieldMyLanguage":

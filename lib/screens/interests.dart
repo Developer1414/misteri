@@ -140,37 +140,43 @@ class _InterestsState extends State<Interests> {
                           ]),
                       child: Padding(
                         padding: const EdgeInsets.all(15.0),
-                        child: Row(
+                        child: Column(
                           children: [
-                            const Icon(Icons.info_outline_rounded,
-                                color: Colors.orangeAccent, size: 25),
-                            const SizedBox(width: 10.0),
-                            StreamBuilder(
-                                stream: FirebaseFirestore.instance
-                                    .collection('Storys')
-                                    .where('storyLanguage',
-                                        isEqualTo: UserData.storysLanguage)
-                                    .where('interests',
-                                        arrayContainsAny: widget.fromNewStory
-                                            ? Interests.myInterests
-                                            : UserData.myInterests)
-                                    .snapshots(),
-                                builder: (cont,
-                                    AsyncSnapshot<QuerySnapshot> snaphot) {
-                                  return SizedBox(
-                                    width: 385,
-                                    child: Text(
-                                      '${S.of(context).interests_storyCount} ${FirestoreService().getCompactNumber(snaphot.data?.docs.length ?? 0)}',
-                                      style: GoogleFonts.roboto(
-                                          textStyle: TextStyle(
-                                        letterSpacing: 0.5,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w700,
-                                        color: Colors.black87.withOpacity(0.7),
-                                      )),
-                                    ),
-                                  );
-                                })
+                            Row(
+                              children: [
+                                const Icon(Icons.info_outline_rounded,
+                                    color: Colors.orangeAccent, size: 25),
+                                const SizedBox(width: 10.0),
+                                StreamBuilder(
+                                    stream: FirebaseFirestore.instance
+                                        .collection('Storys')
+                                        .where('storyLanguage',
+                                            isEqualTo: UserData.storysLanguage)
+                                        .where('interests',
+                                            arrayContainsAny:
+                                                widget.fromNewStory
+                                                    ? Interests.myInterests
+                                                    : UserData.myInterests)
+                                        .snapshots(),
+                                    builder: (cont,
+                                        AsyncSnapshot<QuerySnapshot> snaphot) {
+                                      return SizedBox(
+                                        width: 385,
+                                        child: Text(
+                                          '${S.of(context).interests_storyCount} ${FirestoreService().getCompactNumber(snaphot.data?.docs.length ?? 0)}',
+                                          style: GoogleFonts.roboto(
+                                              textStyle: TextStyle(
+                                            letterSpacing: 0.5,
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w700,
+                                            color:
+                                                Colors.black87.withOpacity(0.7),
+                                          )),
+                                        ),
+                                      );
+                                    })
+                              ],
+                            ),
                           ],
                         ),
                       ))
@@ -184,10 +190,10 @@ class _InterestsState extends State<Interests> {
       side: BorderSide(
           color: !widget.fromNewStory
               ? UserData.myInterests.contains(chipID)
-                  ? Colors.green
+                  ? Colors.blueAccent
                   : Colors.transparent
               : Interests.myInterests.contains(chipID)
-                  ? Colors.green
+                  ? Colors.blueAccent
                   : Colors.transparent,
           width: 2),
       backgroundColor: colorChoosed,

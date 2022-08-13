@@ -287,16 +287,27 @@ class _NewCommentScreenState extends State<NewCommentScreen> {
                             }
                           },
                           child: Center(
-                            child: Text(
-                              S.of(context).newComment_buttonPublish,
-                              textAlign: TextAlign.center,
-                              style: GoogleFonts.roboto(
-                                  textStyle: const TextStyle(
-                                letterSpacing: 0.5,
-                                fontSize: 25,
-                                fontWeight: FontWeight.w700,
-                                color: Colors.white,
-                              )),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Icon(
+                                  Icons.cloud_upload_rounded,
+                                  color: Colors.white,
+                                  size: 30,
+                                ),
+                                const SizedBox(width: 10.0),
+                                Text(
+                                  S.of(context).newComment_buttonPublish,
+                                  textAlign: TextAlign.center,
+                                  style: GoogleFonts.roboto(
+                                      textStyle: const TextStyle(
+                                    letterSpacing: 0.5,
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.white,
+                                  )),
+                                ),
+                              ],
                             ),
                           ),
                         ),

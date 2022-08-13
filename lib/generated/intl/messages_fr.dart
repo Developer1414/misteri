@@ -112,6 +112,27 @@ class MessageLookup extends MessageLookupByLibrary {
             "Vous n\'avez pas écrit le nom !"),
         "newStory_shortStory": MessageLookupByLibrary.simpleMessage(
             "L\'histoire doit faire au moins 50 mots !"),
+        "newStory_stepAdditional":
+            MessageLookupByLibrary.simpleMessage("Ajout"),
+        "newStory_stepAdditionalContent": MessageLookupByLibrary.simpleMessage(
+            "Paramètres supplémentaires pour votre histoire:"),
+        "newStory_stepButtonToDraft":
+            MessageLookupByLibrary.simpleMessage("Brouillon"),
+        "newStory_stepCategory":
+            MessageLookupByLibrary.simpleMessage("Catégorie"),
+        "newStory_stepCategoryContent": MessageLookupByLibrary.simpleMessage(
+            "Choisissez une ou plusieurs catégories pour votre histoire:"),
+        "newStory_stepCompletion":
+            MessageLookupByLibrary.simpleMessage("Achèvement"),
+        "newStory_stepLanguage": MessageLookupByLibrary.simpleMessage("Langue"),
+        "newStory_stepLanguageContent": MessageLookupByLibrary.simpleMessage(
+            "Sélectionnez la langue dans laquelle vous avez écrit l\'histoire:"),
+        "newStory_stepStory": MessageLookupByLibrary.simpleMessage("Histoire"),
+        "newStory_stepStoryContent":
+            MessageLookupByLibrary.simpleMessage("Écrivez votre histoire :"),
+        "newStory_stepTitle": MessageLookupByLibrary.simpleMessage("Entête"),
+        "newStory_stepTitleContent": MessageLookupByLibrary.simpleMessage(
+            "Écrivez le titre de votre histoire:"),
         "newStory_storyCategoryTitle":
             MessageLookupByLibrary.simpleMessage("Catégorie historique"),
         "newStory_storyLanguage_textFieldMyLanguage":

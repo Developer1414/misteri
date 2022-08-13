@@ -1141,8 +1141,6 @@ class _StoryState extends State<Story> {
         });
       }
 
-      story = StoryDataService.story;
-
       await StoryService().loadAdditionalInfoStory();
 
       await UserLocalData().getLastStoryId().then((value) {
@@ -1156,6 +1154,7 @@ class _StoryState extends State<Story> {
       });
 
       setStateIfMounted(() {
+        story = StoryDataService.story;
         isLoading = false;
         isNoMoreStorys = false;
       });
@@ -1180,7 +1179,7 @@ class _StoryState extends State<Story> {
       popUpDialog(
           context: context,
           title: S.of(context).notification_titleError,
-          content: S.of(context).notification_titleError,
+          content: e.message!,
           buttons: [
             SizedBox(
               height: 50,
@@ -1254,16 +1253,27 @@ class _StoryState extends State<Story> {
                                   userName: StoryDataService.userName)));
                         },
                         child: Center(
-                          child: Text(
-                            S.of(context).story_buttonGoToAuthor,
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.roboto(
-                                textStyle: const TextStyle(
-                              letterSpacing: 0.5,
-                              fontSize: 23,
-                              fontWeight: FontWeight.w700,
-                              color: Colors.white,
-                            )),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Icon(
+                                Icons.person_rounded,
+                                color: Colors.white,
+                                size: 30,
+                              ),
+                              const SizedBox(width: 10.0),
+                              Text(
+                                S.of(context).story_buttonGoToAuthor,
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.roboto(
+                                    textStyle: const TextStyle(
+                                  letterSpacing: 0.5,
+                                  fontSize: 23,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.white,
+                                )),
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -1282,6 +1292,14 @@ class _StoryState extends State<Story> {
                       child: InkWell(
                         borderRadius: BorderRadius.circular(25.0),
                         onTap: () async {
+                          if (story != StoryDataService.story) {
+                            setState(() {
+                              story = StoryDataService.story;
+                            });
+                            Navigator.of(cont).pop();
+                            return;
+                          }
+
                           final translator = GoogleTranslator();
 
                           await CountryCodes.init();
@@ -1299,16 +1317,27 @@ class _StoryState extends State<Story> {
                           });
                         },
                         child: Center(
-                          child: Text(
-                            S.of(context).story_buttonTranslate,
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.roboto(
-                                textStyle: const TextStyle(
-                              letterSpacing: 0.5,
-                              fontSize: 23,
-                              fontWeight: FontWeight.w700,
-                              color: Colors.white,
-                            )),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Icon(
+                                Icons.translate_rounded,
+                                color: Colors.white,
+                                size: 30,
+                              ),
+                              const SizedBox(width: 10.0),
+                              Text(
+                                S.of(context).story_buttonTranslate,
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.roboto(
+                                    textStyle: const TextStyle(
+                                  letterSpacing: 0.5,
+                                  fontSize: 23,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.white,
+                                )),
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -1359,16 +1388,27 @@ class _StoryState extends State<Story> {
                                   storyId: StoryDataService.storyId)));
                         },
                         child: Center(
-                          child: Text(
-                            S.of(context).newStory_editStoryTitle,
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.roboto(
-                                textStyle: const TextStyle(
-                              letterSpacing: 0.5,
-                              fontSize: 23,
-                              fontWeight: FontWeight.w700,
-                              color: Colors.white,
-                            )),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Icon(
+                                Icons.edit_rounded,
+                                color: Colors.white,
+                                size: 30,
+                              ),
+                              const SizedBox(width: 10.0),
+                              Text(
+                                S.of(context).newStory_editStoryTitle,
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.roboto(
+                                    textStyle: const TextStyle(
+                                  letterSpacing: 0.5,
+                                  fontSize: 23,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.white,
+                                )),
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -1391,16 +1431,27 @@ class _StoryState extends State<Story> {
                           deleteStoryPopUp(context);
                         },
                         child: Center(
-                          child: Text(
-                            S.of(context).story_buttonDeleteStory,
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.roboto(
-                                textStyle: const TextStyle(
-                              letterSpacing: 0.5,
-                              fontSize: 23,
-                              fontWeight: FontWeight.w700,
-                              color: Colors.white,
-                            )),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Icon(
+                                Icons.delete_rounded,
+                                color: Colors.white,
+                                size: 30,
+                              ),
+                              const SizedBox(width: 10.0),
+                              Text(
+                                S.of(context).story_buttonDeleteStory,
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.roboto(
+                                    textStyle: const TextStyle(
+                                  letterSpacing: 0.5,
+                                  fontSize: 23,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.white,
+                                )),
+                              ),
+                            ],
                           ),
                         ),
                       ),
