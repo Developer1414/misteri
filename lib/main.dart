@@ -104,6 +104,18 @@ class _MyAppState extends State<MyApp> {
                       : FutureBuilder<dynamic>(
                           future: FirestoreService().getAllMyData(),
                           builder: (cont, AsyncSnapshot<dynamic> snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const Center(
+                                  child: SizedBox(
+                                width: 40,
+                                height: 40,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 6.0,
+                                ),
+                              ));
+                            }
+
                             if (snapshot.hasError) {
                               return popUpDialog(
                                   context: cont,

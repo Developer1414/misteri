@@ -30,11 +30,14 @@ class StoryService {
     final format = DateFormat('MM.dd.yyyy HH:mm:ss');
     final clockString = format.format(dateTime);
 
-    final data = FirebaseFirestore.instance
-        .collection('Storys')
-        .doc(storyId.isNotEmpty ? storyId : null);
+    final data =
+        FirebaseFirestore.instance.collection('Storys').doc(storyId.isNotEmpty
+            ? storyId
+            : draftId.isNotEmpty
+                ? draftId
+                : null);
 
-    if (storyId.isEmpty) {
+    if (storyId.isEmpty || draftId.isNotEmpty) {
       await data.set({
         'storyId': data.id,
         'userId': FirebaseAuth.instance.currentUser?.uid,
@@ -50,6 +53,15 @@ class StoryService {
         'likes': 0,
         'comments': 0,
         'interests': Interests.myInterests
+      }).whenComplete(() async {
+        if (draftId.isNotEmpty) {
+          await FirebaseFirestore.instance
+              .collection('Users')
+              .doc(StoryDataService.userId)
+              .collection('Draft')
+              .doc(draftId)
+              .delete();
+        }
       });
 
       await FirebaseFirestore.instance
@@ -66,15 +78,6 @@ class StoryService {
         'commentsAccess': commentsAccess,
         'userName': UserData.userName,
       });
-    }
-
-    if (draftId.isNotEmpty) {
-      await FirebaseFirestore.instance
-          .collection('Users')
-          .doc(StoryDataService.userId)
-          .collection('Draft')
-          .doc(draftId)
-          .delete();
     }
   }
 

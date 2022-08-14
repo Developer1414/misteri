@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -377,12 +378,59 @@ class _SignInState extends State<SignIn> {
                                 setState(() {
                                   isLoading = true;
                                 });
-                                await signInWithGoogle().whenComplete(() {
-                                  setState(() {
-                                    isLoading = false;
+
+                                try {
+                                  await signInWithGoogle().whenComplete(() {
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const Home()));
                                   });
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) => const Home()));
+                                } on PlatformException catch (e) {
+                                  popUpDialog(
+                                      title:
+                                          S.of(context).notification_titleError,
+                                      content: e.code,
+                                      context: context,
+                                      buttons: [
+                                        SizedBox(
+                                          height: 50,
+                                          width: 70,
+                                          child: Material(
+                                            borderRadius:
+                                                BorderRadius.circular(15.0),
+                                            clipBehavior: Clip.antiAlias,
+                                            color: Colors.blue,
+                                            child: InkWell(
+                                              onTap: () => Navigator.of(context,
+                                                      rootNavigator: true)
+                                                  .pop(),
+                                              child: Center(
+                                                child: Text(
+                                                  S
+                                                      .of(context)
+                                                      .notification_buttonOK,
+                                                  textAlign: TextAlign.center,
+                                                  style: GoogleFonts.roboto(
+                                                      textStyle:
+                                                          const TextStyle(
+                                                    letterSpacing: 0.5,
+                                                    fontSize: 20,
+                                                    fontWeight: FontWeight.w700,
+                                                    color: Colors.white,
+                                                  )),
+                                                ),
+                                              ),
+                                            ),
+                                            shadowColor: Colors.black,
+                                            elevation: 5,
+                                          ),
+                                        ),
+                                      ]);
+                                }
+
+                                setState(() {
+                                  isLoading = false;
                                 });
                               },
                               child: Center(
