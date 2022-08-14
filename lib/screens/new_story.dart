@@ -72,7 +72,7 @@ class _NewStoryState extends State<NewStory> {
       Interests.myInterests = StoryDataService.interests;
       NewStory.storyLanguage = StoryDataService.storyLanguage;
     } else {
-      Interests.myInterests = ['love'];
+      Interests.myInterests = ['dailyLife'];
     }
 
     if (widget.storyId.isNotEmpty) {

@@ -126,6 +126,11 @@ class _StoryState extends State<Story> {
   @override
   void initState() {
     super.initState();
+
+    setState(() {
+      isLoading = true;
+    });
+
     initStorySettings();
   }
 

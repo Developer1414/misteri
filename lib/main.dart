@@ -2,12 +2,15 @@ import 'dart:io';
 
 import 'package:appmetrica_plugin/appmetrica_plugin.dart';
 import 'package:appodeal_flutter/appodeal_flutter.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
+import 'package:my_story/screens/ban_screen.dart';
 import 'package:my_story/screens/home.dart';
 import 'package:my_story/screens/profile.dart';
 import 'package:my_story/screens/profile_settings.dart';
@@ -80,7 +83,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   bool isLoading = false;
-  bool isLoadedUserData = false;
+  bool isLoadedUserAccount = false;
 
   @override
   Widget build(BuildContext context) {
@@ -94,18 +97,82 @@ class _MyAppState extends State<MyApp> {
       supportedLocales: S.delegate.supportedLocales,
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        body: isLoadedUserData
-            ? const Home()
-            : StreamBuilder<User?>(
-                stream: FirebaseAuth.instance.authStateChanges(),
-                builder: (context, AsyncSnapshot<dynamic> snap) {
-                  return !snap.hasData
-                      ? const SignIn()
-                      : FutureBuilder<dynamic>(
-                          future: FirestoreService().getAllMyData(),
-                          builder: (cont, AsyncSnapshot<dynamic> snapshot) {
-                            if (snapshot.connectionState ==
-                                ConnectionState.waiting) {
+        body: StreamBuilder<User?>(
+            stream: FirebaseAuth.instance.authStateChanges(),
+            builder: (context, AsyncSnapshot<dynamic> snap) {
+              return !snap.hasData
+                  ? const SignIn()
+                  : FutureBuilder<dynamic>(
+                      future: FirestoreService().getAllMyData(),
+                      builder: (cont, AsyncSnapshot<dynamic> snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const Center(
+                              child: SizedBox(
+                            width: 40,
+                            height: 40,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 6.0,
+                            ),
+                          ));
+                        }
+
+                        if (snapshot.hasError) {
+                          return popUpDialog(
+                              context: cont,
+                              title: S.of(context).notification_titleError,
+                              content: snapshot.error.toString(),
+                              buttons: [
+                                SizedBox(
+                                  height: 50,
+                                  width: 70,
+                                  child: Material(
+                                    borderRadius: BorderRadius.circular(15.0),
+                                    clipBehavior: Clip.antiAlias,
+                                    color: Colors.blue,
+                                    child: InkWell(
+                                      onTap: () => Navigator.of(cont).pop(),
+                                      child: Center(
+                                        child: Text(
+                                          S.of(context).notification_buttonOK,
+                                          textAlign: TextAlign.center,
+                                          style: GoogleFonts.roboto(
+                                              textStyle: const TextStyle(
+                                            letterSpacing: 0.5,
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w700,
+                                            color: Colors.white,
+                                          )),
+                                        ),
+                                      ),
+                                    ),
+                                    shadowColor: Colors.black,
+                                    elevation: 5,
+                                  ),
+                                ),
+                              ]);
+                        }
+
+                        return FutureBuilder<dynamic>(
+                            future: checkAccountOnBan(),
+                            builder: (cont, AsyncSnapshot<dynamic> snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return const Center(
+                                    child: SizedBox(
+                                  width: 40,
+                                  height: 40,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 6.0,
+                                  ),
+                                ));
+                              }
+
+                              if (snapshot.connectionState ==
+                                  ConnectionState.done) {
+                                return snapshot.data;
+                              }
+
                               return const Center(
                                   child: SizedBox(
                                 width: 40,
@@ -114,55 +181,67 @@ class _MyAppState extends State<MyApp> {
                                   strokeWidth: 6.0,
                                 ),
                               ));
-                            }
+                            });
 
-                            if (snapshot.hasError) {
-                              return popUpDialog(
-                                  context: cont,
-                                  title: S.of(context).notification_titleError,
-                                  content: snapshot.error.toString(),
-                                  buttons: [
-                                    SizedBox(
-                                      height: 50,
-                                      width: 70,
-                                      child: Material(
-                                        borderRadius:
-                                            BorderRadius.circular(15.0),
-                                        clipBehavior: Clip.antiAlias,
-                                        color: Colors.blue,
-                                        child: InkWell(
-                                          onTap: () => Navigator.of(cont).pop(),
-                                          child: Center(
-                                            child: Text(
-                                              S
-                                                  .of(context)
-                                                  .notification_buttonOK,
-                                              textAlign: TextAlign.center,
-                                              style: GoogleFonts.roboto(
-                                                  textStyle: const TextStyle(
-                                                letterSpacing: 0.5,
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.w700,
-                                                color: Colors.white,
-                                              )),
-                                            ),
-                                          ),
-                                        ),
-                                        shadowColor: Colors.black,
-                                        elevation: 5,
-                                      ),
-                                    ),
-                                  ]);
-                            }
-
-                            return UserData.userName.isEmpty
+                        /*return snapshot.connectionState == ConnectionState.done
+                            ? UserData.userName.isEmpty
                                 ? const UserProfileSettings(
                                     isActiveBackButton: false)
-                                : const Home();
-                          },
-                        );
-                }),
+                                : const Home()
+                            : const Center(
+                                child: SizedBox(
+                                width: 40,
+                                height: 40,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 6.0,
+                                ),
+                              ));*/
+                      },
+                    );
+            }),
       ),
     );
+  }
+
+  Future<Widget> checkAccountOnBan() async {
+    Widget? screen;
+
+    await FirebaseFirestore.instance
+        .collection('Banned')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .get()
+        .then((value) {
+      if (value.exists) {
+        final format = DateFormat('MM.dd.yyyy HH:mm');
+
+        DateTime dt1 = format.parse(value.get('unlockDate'));
+        DateTime dt2 = format.parse(
+            '${DateTime.now().month}.${DateTime.now().day}.${DateTime.now().year} ${DateTime.now().hour}:${DateTime.now().minute}');
+
+        print(dt2.difference(dt1));
+
+        if ((dt2.difference(dt1).inHours).abs() <= 0) {
+          FirebaseFirestore.instance
+              .collection('Banned')
+              .doc(FirebaseAuth.instance.currentUser!.uid)
+              .delete()
+              .whenComplete(() => const Home());
+        } else {
+          screen = BanScreen(unlockDate: value.get('unlockDate'));
+        }
+      } else {
+        screen = const Home();
+      }
+    });
+
+    return screen ??
+        const Center(
+            child: SizedBox(
+          width: 40,
+          height: 40,
+          child: CircularProgressIndicator(
+            strokeWidth: 6.0,
+          ),
+        ));
   }
 }
