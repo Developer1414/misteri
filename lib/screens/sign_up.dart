@@ -385,56 +385,19 @@ class _SignUpState extends State<SignUp> {
                                   isLoading = true;
                                 });
 
-                                try {
-                                  await signInWithGoogle().whenComplete(() {
-                                    Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const UserProfileSettings(
-                                                    isActiveBackButton:
-                                                        false)));
-                                  }).catchError((onError) {});
-                                } on PlatformException catch (e) {
-                                  popUpDialog(
-                                      title:
-                                          S.of(context).notification_titleError,
-                                      content: e.code,
-                                      context: context,
-                                      buttons: [
-                                        SizedBox(
-                                          height: 50,
-                                          width: 70,
-                                          child: Material(
-                                            borderRadius:
-                                                BorderRadius.circular(15.0),
-                                            clipBehavior: Clip.antiAlias,
-                                            color: Colors.blue,
-                                            child: InkWell(
-                                              onTap: () => Navigator.of(context,
-                                                      rootNavigator: true)
-                                                  .pop(),
-                                              child: Center(
-                                                child: Text(
-                                                  S
-                                                      .of(context)
-                                                      .notification_buttonOK,
-                                                  textAlign: TextAlign.center,
-                                                  style: GoogleFonts.roboto(
-                                                      textStyle:
-                                                          const TextStyle(
-                                                    letterSpacing: 0.5,
-                                                    fontSize: 20,
-                                                    fontWeight: FontWeight.w700,
-                                                    color: Colors.white,
-                                                  )),
-                                                ),
-                                              ),
-                                            ),
-                                            shadowColor: Colors.black,
-                                            elevation: 5,
-                                          ),
-                                        ),
-                                      ]);
+                                Object? error;
+
+                                await signInWithGoogle().catchError((onError) {
+                                  error = onError;
+                                });
+
+                                if (error == null) {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) =>
+                                          const UserProfileSettings(
+                                              isActiveBackButton: false)));
+                                } else {
+                                  Navigator.of(context).pop();
                                 }
 
                                 setState(() {
@@ -569,8 +532,10 @@ class _SignUpState extends State<SignUp> {
   Future<UserCredential?> signInWithGoogle() async {
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
+    if (googleUser == null) return null;
+
     final GoogleSignInAuthentication? googleAuth =
-        await googleUser?.authentication;
+        await googleUser.authentication;
 
     final credential = GoogleAuthProvider.credential(
       accessToken: googleAuth?.accessToken,

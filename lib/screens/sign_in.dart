@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -381,10 +382,26 @@ class _SignInState extends State<SignIn> {
 
                                 try {
                                   await signInWithGoogle().whenComplete(() {
-                                    Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const Home()));
+                                    FirebaseFirestore.instance
+                                        .collection('Users')
+                                        .doc(FirebaseAuth
+                                            .instance.currentUser?.uid)
+                                        .get()
+                                        .then((value) {
+                                      if (value.exists) {
+                                        Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const Home()));
+                                      } else {
+                                        Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const UserProfileSettings(
+                                                        isActiveBackButton:
+                                                            false)));
+                                      }
+                                    });
                                   });
                                 } on PlatformException catch (e) {
                                   popUpDialog(

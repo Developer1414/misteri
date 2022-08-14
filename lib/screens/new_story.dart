@@ -62,8 +62,6 @@ class _NewStoryState extends State<NewStory> {
     super.initState();
     initAppodeal();
 
-    print('DraftID: ${widget.draftId}');
-
     NewStory.commentsAccess = true;
     NewStory.forAdults = false;
     NewStory.storyLanguage = '';
