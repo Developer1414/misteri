@@ -380,71 +380,29 @@ class _SignInState extends State<SignIn> {
                                   isLoading = true;
                                 });
 
-                                try {
-                                  await signInWithGoogle().whenComplete(() {
-                                    FirebaseFirestore.instance
-                                        .collection('Users')
-                                        .doc(FirebaseAuth
-                                            .instance.currentUser?.uid)
-                                        .get()
-                                        .then((value) {
-                                      if (value.exists) {
-                                        Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const Home()));
-                                      } else {
-                                        Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const UserProfileSettings(
-                                                        isActiveBackButton:
-                                                            false)));
-                                      }
-                                    });
+                                await signInWithGoogle().whenComplete(() {
+                                  FirebaseFirestore.instance
+                                      .collection('Users')
+                                      .doc(FirebaseAuth
+                                          .instance.currentUser?.uid)
+                                      .get()
+                                      .then((value) {
+                                    if (value.exists) {
+                                      print('EXIST');
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const Home()));
+                                    } else {
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const UserProfileSettings(
+                                                      isActiveBackButton:
+                                                          false)));
+                                    }
                                   });
-                                } on PlatformException catch (e) {
-                                  popUpDialog(
-                                      title:
-                                          S.of(context).notification_titleError,
-                                      content: e.code,
-                                      context: context,
-                                      buttons: [
-                                        SizedBox(
-                                          height: 50,
-                                          width: 70,
-                                          child: Material(
-                                            borderRadius:
-                                                BorderRadius.circular(15.0),
-                                            clipBehavior: Clip.antiAlias,
-                                            color: Colors.blue,
-                                            child: InkWell(
-                                              onTap: () => Navigator.of(context,
-                                                      rootNavigator: true)
-                                                  .pop(),
-                                              child: Center(
-                                                child: Text(
-                                                  S
-                                                      .of(context)
-                                                      .notification_buttonOK,
-                                                  textAlign: TextAlign.center,
-                                                  style: GoogleFonts.roboto(
-                                                      textStyle:
-                                                          const TextStyle(
-                                                    letterSpacing: 0.5,
-                                                    fontSize: 20,
-                                                    fontWeight: FontWeight.w700,
-                                                    color: Colors.white,
-                                                  )),
-                                                ),
-                                              ),
-                                            ),
-                                            shadowColor: Colors.black,
-                                            elevation: 5,
-                                          ),
-                                        ),
-                                      ]);
-                                }
+                                });
 
                                 setState(() {
                                   isLoading = false;

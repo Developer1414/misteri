@@ -274,7 +274,7 @@ class _NewStoryState extends State<NewStory> {
                 child: InkWell(
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const NewStoryLanguage()));
+                        builder: (context) => const StorysLanguage()));
                   },
                   child: SizedBox(
                     child: Center(

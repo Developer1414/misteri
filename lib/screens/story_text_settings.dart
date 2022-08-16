@@ -3,7 +3,6 @@ import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_story/generated/l10n.dart';
 import 'package:my_story/screens/choose_language_for_new_story.dart';
-import 'package:my_story/screens/home.dart';
 import 'package:my_story/services/user_local_data.dart';
 import 'dart:math' as math;
 
@@ -145,7 +144,7 @@ class _StoryTextSettingsState extends State<StoryTextSettings> {
                             letterSpacing,
                             wordSpacing);
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const NewStoryLanguage(
+                            builder: (context) => const StorysLanguage(
                                 fromSettings: true,
                                 isActiveBackButton: false)));
                       },

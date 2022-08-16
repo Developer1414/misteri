@@ -1,6 +1,6 @@
+import 'package:country_codes/country_codes.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:my_story/screens/home.dart';
 import 'package:my_story/screens/interests.dart';
 import 'package:my_story/screens/new_story.dart';
 import 'package:my_story/services/user.dart';
@@ -8,8 +8,8 @@ import 'package:my_story/services/user.dart';
 import '../generated/l10n.dart';
 import '../services/user_local_data.dart';
 
-class NewStoryLanguage extends StatefulWidget {
-  const NewStoryLanguage(
+class StorysLanguage extends StatefulWidget {
+  const StorysLanguage(
       {Key? key, this.fromSettings = false, this.isActiveBackButton = true})
       : super(key: key);
 
@@ -17,64 +17,62 @@ class NewStoryLanguage extends StatefulWidget {
   final bool isActiveBackButton;
 
   @override
-  State<NewStoryLanguage> createState() => _NewStoryLanguageState();
+  State<StorysLanguage> createState() => _StorysLanguageState();
 }
 
-class _NewStoryLanguageState extends State<NewStoryLanguage> {
+class _StorysLanguageState extends State<StorysLanguage> {
   TextEditingController myOwnLanguageController = TextEditingController();
   bool isSearching = false;
   bool isChoosedNewLanguage = false;
 
-  String choosedLanguage = 'English';
+  String choosedLanguage = '';
 
-  List<String> languages = [
-    'English',
-    'Русский',
-    '中國人',
-    'हिन्दी',
-    'Español',
-    'عرب',
-    'বাংলা',
-    'Português',
-    'bahasa Indonesia',
-    'Français',
-    'Deutsch'
-  ];
+  Map<String, String> langs = {
+    'en': 'English',
+    'ru': 'Русский',
+    'zh': '中國人',
+    'hi': 'हिन्दी',
+    'es': 'Español',
+    'ae': 'عرب',
+    'bn': 'বাংলা',
+    'pt': 'Português',
+    'id': 'bahasa Indonesia',
+    'fr': 'Français',
+    'de': 'Deutsch',
+  };
 
   @override
   void initState() {
     super.initState();
 
-    /*if (!widget.fromSettings) {
-      setState(() {
-        choosedLanguage = NewStory.storyLanguage;
-      });
-      if (!languages.contains(NewStory.storyLanguage)) {
-        myOwnLanguageController.text = NewStory.storyLanguage;
-      }
-    } else {
-      setState(() {
-        choosedLanguage = UserData.storysLanguage;
-      });
-
-      if (!languages.contains(UserData.storysLanguage)) {
-        myOwnLanguageController.text = UserData.storysLanguage;
-      }
-    }*/
+    String languageCode = CountryCodes.getDeviceLocale()!.languageCode;
 
     setState(() {
       if (widget.fromSettings) {
-        choosedLanguage = UserData.storysLanguage;
+        if (!widget.isActiveBackButton) {
+          if (langs.keys.contains(languageCode)) {
+            choosedLanguage = langs[languageCode]!;
+            UserLocalData().saveStorysLanguage(langs[languageCode]!);
+          } else {
+            choosedLanguage = 'English';
+          }
+        } else {
+          choosedLanguage = UserData.storysLanguage;
+        }
+
+        if (!langs.values.contains(UserData.storysLanguage)) {
+          myOwnLanguageController.text = choosedLanguage;
+        }
       } else {
         choosedLanguage = NewStory.storyLanguage.isEmpty
             ? UserData.storysLanguage
             : NewStory.storyLanguage;
+
+        if (!langs.values.contains(choosedLanguage)) {
+          myOwnLanguageController.text = choosedLanguage;
+        }
       }
     });
-
-    if (!languages.contains(choosedLanguage)) {
-      myOwnLanguageController.text = choosedLanguage;
-    }
   }
 
   @override
@@ -131,17 +129,19 @@ class _NewStoryLanguageState extends State<NewStoryLanguage> {
               title: Row(
                 children: [
                   widget.isActiveBackButton
-                      ? IconButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          icon: Icon(
-                            Icons.arrow_back_rounded,
-                            color: Colors.black87.withOpacity(0.7),
-                            size: 30,
-                          ))
+                      ? Padding(
+                          padding: const EdgeInsets.only(right: 20.0),
+                          child: IconButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              icon: Icon(
+                                Icons.arrow_back_rounded,
+                                color: Colors.black87.withOpacity(0.7),
+                                size: 30,
+                              )),
+                        )
                       : Container(),
-                  const SizedBox(width: 20.0),
                   Text(
                     S.of(context).newStory_buttonStoryLanguage,
                     textAlign: TextAlign.center,
@@ -204,9 +204,9 @@ class _NewStoryLanguageState extends State<NewStoryLanguage> {
               ),
             ),
             body: ListView.builder(
-                itemCount: languages.length + 1,
+                itemCount: langs.length + 1,
                 itemBuilder: (cont, index) {
-                  return index < languages.length
+                  return index < langs.length
                       ? Padding(
                           padding: EdgeInsets.only(
                               left: 15.0,
@@ -227,18 +227,24 @@ class _NewStoryLanguageState extends State<NewStoryLanguage> {
                             child: Material(
                               borderRadius: BorderRadius.circular(10.0),
                               clipBehavior: Clip.antiAlias,
-                              color: choosedLanguage == languages[index]
+                              color: choosedLanguage ==
+                                      langs[langs.keys.elementAt(index)]
                                   ? Colors.blueAccent
                                   : null,
                               child: InkWell(
                                 onTap: () {
                                   setState(() {
-                                    choosedLanguage = languages[index];
+                                    choosedLanguage =
+                                        langs[langs.keys.elementAt(index)] ??
+                                            'English';
                                     if (!widget.fromSettings) {
-                                      NewStory.storyLanguage = languages[index];
+                                      NewStory.storyLanguage =
+                                          langs[langs.keys.elementAt(index)] ??
+                                              'English';
                                     } else {
-                                      UserLocalData()
-                                          .saveStorysLanguage(languages[index]);
+                                      UserLocalData().saveStorysLanguage(
+                                          langs[langs.keys.elementAt(index)] ??
+                                              'English');
                                     }
                                   });
                                 },
@@ -247,7 +253,7 @@ class _NewStoryLanguageState extends State<NewStoryLanguage> {
                                     child: Padding(
                                       padding: const EdgeInsets.all(15.0),
                                       child: Text(
-                                        languages[index],
+                                        langs.values.elementAt(index),
                                         textAlign: TextAlign.center,
                                         style: GoogleFonts.roboto(
                                             textStyle: TextStyle(
@@ -255,7 +261,8 @@ class _NewStoryLanguageState extends State<NewStoryLanguage> {
                                           fontSize: 20,
                                           fontWeight: FontWeight.w700,
                                           color: choosedLanguage ==
-                                                  languages[index]
+                                                  langs[langs.keys
+                                                      .elementAt(index)]
                                               ? Colors.white
                                               : Colors.black87.withOpacity(0.7),
                                         )),

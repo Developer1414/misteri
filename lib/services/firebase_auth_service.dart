@@ -8,9 +8,7 @@ class FirebaseAuthService {
   String? deviceToken = '';
 
   Future signUp(
-      {required String name,
-      required String email,
-      required String password}) async {
+      {required String name, String email = '', String password = ''}) async {
     List<String> splitList = name.split(' ');
     List<String> indexList = [];
 
@@ -24,8 +22,10 @@ class FirebaseAuthService {
       deviceToken = token;
     });
 
-    await FirebaseAuth.instance
-        .createUserWithEmailAndPassword(email: email, password: password);
+    if (email.isNotEmpty) {
+      await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: email, password: password);
+    }
 
     final data = FirebaseFirestore.instance
         .collection('Users')

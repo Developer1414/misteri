@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_story/models/popup.dart';
 import 'package:my_story/screens/story_text_settings.dart';
+import 'package:my_story/services/firebase_auth_service.dart';
 import 'package:my_story/services/firestore_service.dart';
 import 'package:my_story/services/storage_service.dart';
 import 'package:my_story/services/user.dart';
@@ -152,30 +153,16 @@ class _UserProfileSettingsState extends State<UserProfileSettings> {
                             isLoading = true;
                           });
 
-                          List<String> splitList =
-                              nameController.text.trim().split(' ');
-                          List<String> indexList = [];
-
-                          for (int i = 0; i < splitList.length; i++) {
-                            for (int y = 1; y < splitList[i].length + 1; y++) {
-                              indexList.add(
-                                  splitList[i].substring(0, y).toLowerCase());
-                            }
-                          }
-
-                          final data = FirebaseFirestore.instance
-                              .collection('Users')
-                              .doc(FirebaseAuth.instance.currentUser?.uid);
-                          await data.update({
-                            'name': nameController.text.trim(),
-                            'nameIndex': indexList,
-                          }).whenComplete(() {
+                          await FirebaseAuthService()
+                              .signUp(name: nameController.text.trim())
+                              .whenComplete(() {
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) =>
                                     const StoryTextSettings()));
-                            setState(() {
-                              isLoading = false;
-                            });
+                          });
+
+                          setState(() {
+                            isLoading = false;
                           });
                         },
                         child: Center(
@@ -314,11 +301,9 @@ class _UserProfileSettingsState extends State<UserProfileSettings> {
                                                       });
                                                     }
                                                   },
-                                                  child: FirebaseAuth
-                                                          .instance
-                                                          .currentUser!
-                                                          .uid
-                                                          .isNotEmpty
+                                                  child: FirebaseAuth.instance
+                                                              .currentUser !=
+                                                          null
                                                       ? FutureBuilder(
                                                           future: FirestoreService()
                                                               .getAvatarImage(

@@ -123,7 +123,7 @@ class _SettingsState extends State<Settings> {
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) =>
-                                  const NewStoryLanguage(fromSettings: true)));
+                                  const StorysLanguage(fromSettings: true)));
                         },
                         child: Center(
                           child: Row(
