@@ -357,7 +357,7 @@ class _SignInState extends State<SignIn> {
                             elevation: 5,
                           ),
                         ),
-                        Text(
+/*                        Text(
                           S.of(context).login_textOr,
                           style: GoogleFonts.roboto(
                               textStyle: TextStyle(
@@ -388,7 +388,6 @@ class _SignInState extends State<SignIn> {
                                       .get()
                                       .then((value) {
                                     if (value.exists) {
-                                      print('EXIST');
                                       Navigator.of(context).push(
                                           MaterialPageRoute(
                                               builder: (context) =>
@@ -435,7 +434,7 @@ class _SignInState extends State<SignIn> {
                             shadowColor: Colors.black,
                             elevation: 5,
                           ),
-                        ),
+                        ),*/
                         RichText(
                             textAlign: TextAlign.center,
                             text: TextSpan(children: [

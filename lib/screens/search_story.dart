@@ -233,7 +233,7 @@ class _SearchStoryState extends State<SearchStory> {
                             ? searchController.text.isEmpty
                                 ? showStories()
                                 : showSearchingStorys()
-                            : showSearchingUsers())
+                            : showSearchingUsers(context))
                   ],
                 ),
               ),
@@ -308,7 +308,7 @@ class _SearchStoryState extends State<SearchStory> {
         });
   }
 
-  Widget showSearchingUsers() {
+  Widget showSearchingUsers(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
             .collection('Users')
@@ -338,151 +338,290 @@ class _SearchStoryState extends State<SearchStory> {
             ));
           }
 
-          return snapshot.data!.docs.isEmpty
-              ? Center(
-                  child: Text(
-                    S.of(context).search_authorNotFound,
-                    style: TextStyle(
-                      color: Colors.black87.withOpacity(0.5),
-                      fontSize: 22,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                )
-              : ListView.builder(
-                  itemCount: snapshot.data?.docs.length,
-                  itemBuilder: (cont2, int index) {
-                    return Container(
-                      decoration: BoxDecoration(
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(15.0)),
-                          boxShadow: [
-                            BoxShadow(
-                                blurRadius: 10,
-                                color: Colors.black.withOpacity(0.3),
-                                blurStyle: BlurStyle.outer)
-                          ]),
-                      margin: const EdgeInsets.only(
-                          left: 15.0, right: 15.0, bottom: 15.0),
-                      child: Material(
-                        borderRadius: BorderRadius.circular(15.0),
-                        clipBehavior: Clip.antiAlias,
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => Profile(
-                                      isActiveBackButton: true,
-                                      isMyProfile: snapshot.data?.docs[index]
-                                              .get('id') ==
-                                          FirebaseAuth
-                                              .instance.currentUser!.uid,
-                                      userId:
-                                          snapshot.data?.docs[index].get('id'),
-                                      userName: snapshot.data?.docs[index]
-                                          .get('name'),
-                                    )));
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.all(15.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 8.0),
-                                  child: Text(
-                                    snapshot.data?.docs[index].get('name'),
-                                    overflow: TextOverflow.ellipsis,
-                                    style: GoogleFonts.roboto(
-                                        textStyle: TextStyle(
-                                      letterSpacing: 0.5,
-                                      fontSize: 21,
-                                      fontWeight: FontWeight.w700,
-                                      color: Colors.black87.withOpacity(0.7),
-                                    )),
-                                  ),
-                                ),
-                                const SizedBox(height: 5.0),
-                                Row(
+          if (snapshot.data!.docs.isEmpty) {
+            return StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance
+                    .collection('Users')
+                    .orderBy('subscribers', descending: true)
+                    .snapshots(),
+                builder: (ctx, snapshot) {
+                  return ListView.builder(
+                      itemCount: snapshot.data?.docs.length,
+                      itemBuilder: (cont2, int index) {
+                        return Container(
+                          decoration: BoxDecoration(
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(15.0)),
+                              boxShadow: [
+                                BoxShadow(
+                                    blurRadius: 10,
+                                    color: Colors.black.withOpacity(0.3),
+                                    blurStyle: BlurStyle.outer)
+                              ]),
+                          margin: const EdgeInsets.only(
+                              left: 15.0, right: 15.0, bottom: 15.0),
+                          child: Material(
+                            borderRadius: BorderRadius.circular(15.0),
+                            clipBehavior: Clip.antiAlias,
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => Profile(
+                                          isActiveBackButton: true,
+                                          isMyProfile: snapshot
+                                                  .data?.docs[index]
+                                                  .get('id') ==
+                                              FirebaseAuth
+                                                  .instance.currentUser!.uid,
+                                          userId: snapshot.data?.docs[index]
+                                              .get('id'),
+                                          userName: snapshot.data?.docs[index]
+                                              .get('name'),
+                                        )));
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(15.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Row(
-                                      children: [
-                                        const Icon(Icons.people_rounded,
-                                            color: Colors.blueAccent, size: 20),
-                                        const SizedBox(width: 5.0),
-                                        FutureBuilder<QuerySnapshot>(
-                                            future: FirebaseFirestore.instance
-                                                .collection('Users')
-                                                .doc(snapshot.data?.docs[index]
-                                                    .get('id'))
-                                                .collection('Subscribers')
-                                                .get(),
-                                            builder: (context,
-                                                AsyncSnapshot<QuerySnapshot>
-                                                    snapshot) {
-                                              return Text(
-                                                FirestoreService()
-                                                    .getCompactNumber(snapshot
-                                                            .data
-                                                            ?.docs
-                                                            .length ??
-                                                        0),
-                                                style: GoogleFonts.roboto(
-                                                    textStyle: TextStyle(
-                                                  letterSpacing: 0.5,
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.w700,
-                                                  color: Colors.black87
-                                                      .withOpacity(0.7),
-                                                )),
-                                              );
-                                            }),
-                                      ],
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(right: 8.0),
+                                      child: Text(
+                                        snapshot.data?.docs[index]
+                                                .get('name') ??
+                                            'null',
+                                        overflow: TextOverflow.ellipsis,
+                                        style: GoogleFonts.roboto(
+                                            textStyle: TextStyle(
+                                          letterSpacing: 0.5,
+                                          fontSize: 21,
+                                          fontWeight: FontWeight.w700,
+                                          color:
+                                              Colors.black87.withOpacity(0.7),
+                                        )),
+                                      ),
                                     ),
-                                    const SizedBox(width: 10.0),
+                                    const SizedBox(height: 5.0),
                                     Row(
                                       children: [
-                                        const Icon(Icons.library_books_rounded,
-                                            color: Colors.blueAccent, size: 20),
-                                        const SizedBox(width: 5.0),
-                                        FutureBuilder<QuerySnapshot>(
-                                            future: FirebaseFirestore.instance
-                                                .collection('Storys')
-                                                .where('userId',
-                                                    isEqualTo: snapshot
+                                        Row(
+                                          children: [
+                                            const Icon(Icons.people_rounded,
+                                                color: Colors.blueAccent,
+                                                size: 20),
+                                            const SizedBox(width: 5.0),
+                                            FutureBuilder<QuerySnapshot>(
+                                                future: FirebaseFirestore
+                                                    .instance
+                                                    .collection('Users')
+                                                    .doc(snapshot
                                                         .data?.docs[index]
                                                         .get('id'))
-                                                .get(),
-                                            builder: (context,
-                                                AsyncSnapshot<QuerySnapshot>
-                                                    snapshot) {
-                                              return Text(
-                                                FirestoreService()
-                                                    .getCompactNumber(snapshot
-                                                            .data
-                                                            ?.docs
-                                                            .length ??
-                                                        0),
-                                                style: GoogleFonts.roboto(
-                                                    textStyle: TextStyle(
-                                                  letterSpacing: 0.5,
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.w700,
-                                                  color: Colors.black87
-                                                      .withOpacity(0.7),
-                                                )),
-                                              );
-                                            }),
+                                                    .collection('Subscribers')
+                                                    .get(),
+                                                builder: (context,
+                                                    AsyncSnapshot<QuerySnapshot>
+                                                        snapshot) {
+                                                  return Text(
+                                                    FirestoreService()
+                                                        .getCompactNumber(
+                                                            snapshot.data?.docs
+                                                                    .length ??
+                                                                0),
+                                                    style: GoogleFonts.roboto(
+                                                        textStyle: TextStyle(
+                                                      letterSpacing: 0.5,
+                                                      fontSize: 18,
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                      color: Colors.black87
+                                                          .withOpacity(0.7),
+                                                    )),
+                                                  );
+                                                }),
+                                          ],
+                                        ),
+                                        const SizedBox(width: 10.0),
+                                        Row(
+                                          children: [
+                                            const Icon(
+                                                Icons.library_books_rounded,
+                                                color: Colors.blueAccent,
+                                                size: 20),
+                                            const SizedBox(width: 5.0),
+                                            FutureBuilder<QuerySnapshot>(
+                                                future: FirebaseFirestore
+                                                    .instance
+                                                    .collection('Storys')
+                                                    .where('userId',
+                                                        isEqualTo: snapshot
+                                                            .data?.docs[index]
+                                                            .get('id'))
+                                                    .get(),
+                                                builder: (context,
+                                                    AsyncSnapshot<QuerySnapshot>
+                                                        snapshot) {
+                                                  return Text(
+                                                    FirestoreService()
+                                                        .getCompactNumber(
+                                                            snapshot.data?.docs
+                                                                    .length ??
+                                                                0),
+                                                    style: GoogleFonts.roboto(
+                                                        textStyle: TextStyle(
+                                                      letterSpacing: 0.5,
+                                                      fontSize: 18,
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                      color: Colors.black87
+                                                          .withOpacity(0.7),
+                                                    )),
+                                                  );
+                                                }),
+                                          ],
+                                        ),
                                       ],
                                     ),
                                   ],
                                 ),
-                              ],
+                              ),
                             ),
+                          ),
+                        );
+                      });
+                });
+          } else {
+            return ListView.builder(
+                itemCount: snapshot.data?.docs.length,
+                itemBuilder: (cont2, int index) {
+                  return Container(
+                    decoration: BoxDecoration(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(15.0)),
+                        boxShadow: [
+                          BoxShadow(
+                              blurRadius: 10,
+                              color: Colors.black.withOpacity(0.3),
+                              blurStyle: BlurStyle.outer)
+                        ]),
+                    margin: const EdgeInsets.only(
+                        left: 15.0, right: 15.0, bottom: 15.0),
+                    child: Material(
+                      borderRadius: BorderRadius.circular(15.0),
+                      clipBehavior: Clip.antiAlias,
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => Profile(
+                                    isActiveBackButton: true,
+                                    isMyProfile: snapshot.data?.docs[index]
+                                            .get('id') ==
+                                        FirebaseAuth.instance.currentUser!.uid,
+                                    userId:
+                                        snapshot.data?.docs[index].get('id'),
+                                    userName:
+                                        snapshot.data?.docs[index].get('name'),
+                                  )));
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(right: 8.0),
+                                child: Text(
+                                  snapshot.data?.docs[index].get('name'),
+                                  overflow: TextOverflow.ellipsis,
+                                  style: GoogleFonts.roboto(
+                                      textStyle: TextStyle(
+                                    letterSpacing: 0.5,
+                                    fontSize: 21,
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.black87.withOpacity(0.7),
+                                  )),
+                                ),
+                              ),
+                              const SizedBox(height: 5.0),
+                              Row(
+                                children: [
+                                  Row(
+                                    children: [
+                                      const Icon(Icons.people_rounded,
+                                          color: Colors.blueAccent, size: 20),
+                                      const SizedBox(width: 5.0),
+                                      FutureBuilder<QuerySnapshot>(
+                                          future: FirebaseFirestore.instance
+                                              .collection('Users')
+                                              .doc(snapshot.data?.docs[index]
+                                                  .get('id'))
+                                              .collection('Subscribers')
+                                              .get(),
+                                          builder: (context,
+                                              AsyncSnapshot<QuerySnapshot>
+                                                  snapshot) {
+                                            return Text(
+                                              FirestoreService()
+                                                  .getCompactNumber(snapshot
+                                                          .data?.docs.length ??
+                                                      0),
+                                              style: GoogleFonts.roboto(
+                                                  textStyle: TextStyle(
+                                                letterSpacing: 0.5,
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w700,
+                                                color: Colors.black87
+                                                    .withOpacity(0.7),
+                                              )),
+                                            );
+                                          }),
+                                    ],
+                                  ),
+                                  const SizedBox(width: 10.0),
+                                  Row(
+                                    children: [
+                                      const Icon(Icons.library_books_rounded,
+                                          color: Colors.blueAccent, size: 20),
+                                      const SizedBox(width: 5.0),
+                                      FutureBuilder<QuerySnapshot>(
+                                          future: FirebaseFirestore.instance
+                                              .collection('Storys')
+                                              .where('userId',
+                                                  isEqualTo: snapshot
+                                                      .data?.docs[index]
+                                                      .get('id'))
+                                              .get(),
+                                          builder: (context,
+                                              AsyncSnapshot<QuerySnapshot>
+                                                  snapshot) {
+                                            return Text(
+                                              FirestoreService()
+                                                  .getCompactNumber(snapshot
+                                                          .data?.docs.length ??
+                                                      0),
+                                              style: GoogleFonts.roboto(
+                                                  textStyle: TextStyle(
+                                                letterSpacing: 0.5,
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w700,
+                                                color: Colors.black87
+                                                    .withOpacity(0.7),
+                                              )),
+                                            );
+                                          }),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
                         ),
                       ),
-                    );
-                  });
+                    ),
+                  );
+                });
+          }
         });
   }
 
@@ -589,7 +728,7 @@ class _SearchStoryState extends State<SearchStory> {
     bool isNew = false;
     String date = '';
 
-    final format = DateFormat('MM.dd.yyyy HH:mm:ss');
+    final format = DateFormat('MM.dd.yyyy HH:mm');
 
     DateTime dt1 = format.parse(snapshot.data?.docs[index].get('date'));
     DateTime dt2 = format.parse(
@@ -728,6 +867,34 @@ class _SearchStoryState extends State<SearchStory> {
                 const SizedBox(height: 5.0),
                 Row(
                   children: [
+                    snapshot.data!.docs[index].get('forAdults') == true
+                        ? Container(
+                            margin: const EdgeInsets.only(right: 10.0),
+                            decoration: BoxDecoration(
+                                boxShadow: [
+                                  BoxShadow(
+                                      blurRadius: 10,
+                                      color: Colors.redAccent.withOpacity(0.8),
+                                      blurStyle: BlurStyle.normal)
+                                ],
+                                borderRadius: BorderRadius.circular(10.0),
+                                color: Colors.redAccent),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                '18+',
+                                overflow: TextOverflow.ellipsis,
+                                style: GoogleFonts.roboto(
+                                    textStyle: const TextStyle(
+                                  letterSpacing: 0.5,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.white,
+                                )),
+                              ),
+                            ),
+                          )
+                        : Container(),
                     Row(
                       children: [
                         const Icon(Icons.favorite_rounded,
@@ -755,6 +922,24 @@ class _SearchStoryState extends State<SearchStory> {
                         Text(
                           FirestoreService().getCompactNumber(
                               snapshot.data!.docs[index].get('views')),
+                          style: GoogleFonts.roboto(
+                              textStyle: TextStyle(
+                            letterSpacing: 0.5,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.black87.withOpacity(0.7),
+                          )),
+                        )
+                      ],
+                    ),
+                    const SizedBox(width: 10.0),
+                    Row(
+                      children: [
+                        Icon(Icons.access_time_filled_rounded,
+                            color: Colors.blue.withOpacity(0.8), size: 20),
+                        const SizedBox(width: 5.0),
+                        Text(
+                          '~${(snapshot.data!.docs[index].get('story').toString().length / 190).round()} ${S.of(context).story_readTimeMinutes}',
                           style: GoogleFonts.roboto(
                               textStyle: TextStyle(
                             letterSpacing: 0.5,
@@ -797,8 +982,8 @@ class _SearchStoryState extends State<SearchStory> {
                     margin: const EdgeInsets.all(10.0),
                     decoration: BoxDecoration(
                         color: sortStoriesBy == SortBy.New
-                            ? Colors.red
-                            : Colors.blue,
+                            ? Colors.blue
+                            : Colors.blueGrey,
                         borderRadius: BorderRadius.circular(25.0)),
                     child: Material(
                       color: Colors.transparent,
@@ -833,8 +1018,8 @@ class _SearchStoryState extends State<SearchStory> {
                         left: 10.0, right: 10.0, bottom: 10.0),
                     decoration: BoxDecoration(
                         color: sortStoriesBy == SortBy.Popular
-                            ? Colors.red
-                            : Colors.blue,
+                            ? Colors.blue
+                            : Colors.blueGrey,
                         borderRadius: BorderRadius.circular(25.0)),
                     child: Material(
                       color: Colors.transparent,
@@ -869,8 +1054,8 @@ class _SearchStoryState extends State<SearchStory> {
                         left: 10.0, right: 10.0, bottom: 10.0),
                     decoration: BoxDecoration(
                         color: sortStoriesBy == SortBy.Old
-                            ? Colors.red
-                            : Colors.blue,
+                            ? Colors.blue
+                            : Colors.blueGrey,
                         borderRadius: BorderRadius.circular(25.0)),
                     child: Material(
                       color: Colors.transparent,

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +8,6 @@ import 'package:my_story/screens/comment_replies.dart';
 import 'package:my_story/screens/new_comments.dart';
 import 'package:my_story/screens/profile.dart';
 import 'package:my_story/services/story_data_service.dart';
-import 'package:my_story/services/user.dart';
 import 'package:shimmer/shimmer.dart';
 import '../generated/l10n.dart';
 import '../services/firestore_service.dart';
@@ -301,7 +301,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
                                                                           null
                                                                       ? snapshot
                                                                               .data
-                                                                          as Image
+                                                                          as CachedNetworkImage
                                                                       : const Icon(
                                                                           Icons
                                                                               .person,

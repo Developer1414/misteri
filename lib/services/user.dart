@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class UserData {
@@ -9,7 +10,7 @@ class UserData {
   static List<String> myInterests = ['love'];
   static String storysCount = '0';
   static String subscribersCount = '0';
-  static Image? userImage;
+  static CachedNetworkImage? userImage;
   static File? userImageFile;
   static bool isVerifiedAccount = false;
 }

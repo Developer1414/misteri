@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -19,11 +20,11 @@ class StorageService {
     }
   }
 
-  Future<Image> getUserImage(String userId) async {
-    late Image image;
+  Future<CachedNetworkImage> getUserImage(String userId) async {
+    late CachedNetworkImage image;
 
     await storage.ref('Users').child(userId).getDownloadURL().then((value) {
-      image = Image.network(value.toString(), fit: BoxFit.cover);
+      image = CachedNetworkImage(imageUrl: value.toString(), fit: BoxFit.cover);
     });
 
     return image;

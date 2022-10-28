@@ -24,6 +24,12 @@ void main() async {
 
   await Firebase.initializeApp();
 
+  /*FirebaseUIAuth.configureProviders([
+    GoogleProvider(
+        clientId:
+            '873556823155-ji5scikpnp0rmdd38h4grufj6pg97s9o.apps.googleusercontent.com'),
+  ]);*/
+
   await CountryCodes.init();
 
   Appodeal.setAppKeys(

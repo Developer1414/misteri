@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -218,7 +219,7 @@ class _CommentRepliesState extends State<CommentReplies> {
                                                                       .data !=
                                                                   null
                                                               ? snapshot.data
-                                                                  as Image
+                                                                  as CachedNetworkImage
                                                               : const Icon(
                                                                   Icons.person,
                                                                   size: 40,

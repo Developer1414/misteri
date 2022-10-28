@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -447,7 +448,7 @@ class _ProfileState extends State<Profile> {
                                                       child: snapshot.data !=
                                                               null
                                                           ? snapshot.data
-                                                              as Image
+                                                              as CachedNetworkImage
                                                           : const Icon(
                                                               Icons.person,
                                                               size: 50,
@@ -492,7 +493,8 @@ class _ProfileState extends State<Profile> {
                                                       BorderRadius.circular(
                                                           15.0),
                                                   child: snapshot.data != null
-                                                      ? snapshot.data as Image
+                                                      ? snapshot.data
+                                                          as CachedNetworkImage
                                                       : const Icon(
                                                           Icons.person,
                                                           size: 50,
@@ -880,6 +882,46 @@ class _ProfileState extends State<Profile> {
                                   children: [
                                     Row(
                                       children: [
+                                        snapshot.data!.docs[index]
+                                                    .get('forAdults') ==
+                                                true
+                                            ? Container(
+                                                margin: const EdgeInsets.only(
+                                                    right: 10.0),
+                                                decoration: BoxDecoration(
+                                                    boxShadow: [
+                                                      BoxShadow(
+                                                          blurRadius: 10,
+                                                          color: Colors
+                                                              .redAccent
+                                                              .withOpacity(0.8),
+                                                          blurStyle:
+                                                              BlurStyle.normal)
+                                                    ],
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10.0),
+                                                    color: Colors.redAccent),
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: Text(
+                                                    '18+',
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    style: GoogleFonts.roboto(
+                                                        textStyle:
+                                                            const TextStyle(
+                                                      letterSpacing: 0.5,
+                                                      fontSize: 12,
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                      color: Colors.white,
+                                                    )),
+                                                  ),
+                                                ),
+                                              )
+                                            : Container(),
                                         const Icon(Icons.favorite_rounded,
                                             color: Colors.redAccent, size: 20),
                                         const SizedBox(width: 5.0),
@@ -917,6 +959,26 @@ class _ProfileState extends State<Profile> {
                                                 Colors.black87.withOpacity(0.7),
                                           )),
                                         ),
+                                      ],
+                                    ),
+                                    const SizedBox(width: 10.0),
+                                    Row(
+                                      children: [
+                                        Icon(Icons.access_time_filled_rounded,
+                                            color: Colors.blue.withOpacity(0.8),
+                                            size: 20),
+                                        const SizedBox(width: 5.0),
+                                        Text(
+                                          '~${(snapshot.data!.docs[index].get('story').toString().length / 190).round()} ${S.of(context).story_readTimeMinutes}',
+                                          style: GoogleFonts.roboto(
+                                              textStyle: TextStyle(
+                                            letterSpacing: 0.5,
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w700,
+                                            color:
+                                                Colors.black87.withOpacity(0.7),
+                                          )),
+                                        )
                                       ],
                                     ),
                                   ],

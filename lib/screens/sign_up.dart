@@ -362,7 +362,35 @@ class _SignUpState extends State<SignUp> {
                             elevation: 5,
                           ),
                         ),
-                        Text(
+                        /*Padding(
+                          padding: const EdgeInsets.only(
+                              left: 15.0, right: 15.0, bottom: 15.0),
+                          child: SizedBox(
+                              height: 60,
+                              child: AuthStateListener<OAuthController>(
+                                child: OAuthProviderButton(
+                                  provider: GoogleProvider(
+                                      clientId:
+                                          '873556823155-ji5scikpnp0rmdd38h4grufj6pg97s9o.apps.googleusercontent.com'),
+                                ),
+                                listener: (oldState, newState, ctrl) {
+                                  if (newState is SignedIn) {
+                                    setState(() {
+                                      isLoading = false;
+                                    });
+
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const UserProfileSettings(
+                                                    isActiveBackButton:
+                                                        false)));
+                                  }
+                                  return null;
+                                },
+                              )),
+                        ),*/
+                        /*                      Text(
                           S.of(context).login_textOr,
                           style: GoogleFonts.roboto(
                               textStyle: TextStyle(
@@ -477,7 +505,7 @@ class _SignUpState extends State<SignUp> {
                             shadowColor: Colors.black,
                             elevation: 5,
                           ),
-                        ),
+                        ),*/
                         Container(
                           margin:
                               const EdgeInsets.only(left: 20.0, right: 20.0),

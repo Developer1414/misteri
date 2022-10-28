@@ -15,17 +15,12 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.2.5+25
+version: 1.2.7+27
 
 environment:
   sdk: ">=2.16.2 <3.0.0"
 
-# Dependencies specify other packages that your package needs in order to work.
-# To automatically upgrade your package dependencies to the latest versions
-# consider running `flutter pub upgrade --major-versions`. Alternatively,
-# dependencies can be manually updated by changing the version numbers below to
-# the latest version available on pub.dev. To see which dependencies have newer
-# versions available, run `flutter pub outdated`.
+
 dependencies:
   appmetrica_plugin: ^1.0.1
   appodeal_flutter: ^1.1.2
@@ -58,6 +53,11 @@ dependencies:
   url_launcher: ^6.1.5
   translator: ^0.1.7
   country_codes: ^2.2.0
+  get: ^4.6.5
+  cached_network_image: ^3.2.1
+  in_app_update: ^3.0.0
+ # firebase_ui_auth: ^1.0.0-dev.0
+  #firebase_ui_oauth_google: ^1.0.0-dev.0
 
 dev_dependencies:
   flutter_launcher_icons: ^0.9.3

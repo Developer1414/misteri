@@ -482,6 +482,57 @@ class _StoryState extends State<Story> {
                                                       ),
                                                     ),
                                                   ),
+                                                  StoryDataService.forAdults
+                                                      ? Container(
+                                                          margin:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  top: 20.0),
+                                                          decoration: BoxDecoration(
+                                                              boxShadow: [
+                                                                BoxShadow(
+                                                                    blurRadius:
+                                                                        10,
+                                                                    color: Colors
+                                                                        .redAccent
+                                                                        .withOpacity(
+                                                                            0.8),
+                                                                    blurStyle:
+                                                                        BlurStyle
+                                                                            .normal)
+                                                              ],
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          10.0),
+                                                              color: Colors
+                                                                  .redAccent),
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(8.0),
+                                                            child: Text(
+                                                              '18+',
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
+                                                              style: GoogleFonts
+                                                                  .roboto(
+                                                                      textStyle:
+                                                                          const TextStyle(
+                                                                letterSpacing:
+                                                                    0.5,
+                                                                fontSize: 20,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w700,
+                                                                color: Colors
+                                                                    .white,
+                                                              )),
+                                                            ),
+                                                          ),
+                                                        )
+                                                      : Container(),
                                                   const SizedBox(height: 20.0),
                                                   Padding(
                                                       padding:

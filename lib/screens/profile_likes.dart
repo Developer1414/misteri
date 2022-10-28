@@ -222,6 +222,7 @@ class _MyLikesScreenState extends State<MyLikesScreen> {
                                                 ),
                                               ]);
                                         } else {
+                                          isLoading = true;
                                           Navigator.of(context).push(
                                               MaterialPageRoute(
                                                   builder: (context) => Story(
