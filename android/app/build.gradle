@@ -33,7 +33,7 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    compileSdkVersion flutter.compileSdkVersion
+    compileSdkVersion 33
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -67,6 +67,8 @@ android {
    }
    buildTypes {
        release {
+           minifyEnabled true
+           shrinkResources true
            signingConfig signingConfigs.release
        }
    }
@@ -79,5 +81,5 @@ flutter {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.appodeal.ads:sdk:2.10.3.+'
-    //implementation platform('com.google.firebase:firebase-bom:30.1.0')
+    implementation 'com.my.tracker:mytracker-sdk:3.0.9'
 }

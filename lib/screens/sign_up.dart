@@ -534,7 +534,7 @@ class _SignUpState extends State<SignUp> {
                                       recognizer: TapGestureRecognizer()
                                         ..onTap = () async {
                                           var url = Uri.parse(
-                                              "https://drive.google.com/file/d/1fm16m9BCD8QroWlVUeE3S31K06mGTTzl/view?usp=sharing");
+                                              "http://project6270674.tilda.ws/");
                                           if (await canLaunchUrl(url)) {
                                             await launchUrl(url);
                                           } else {

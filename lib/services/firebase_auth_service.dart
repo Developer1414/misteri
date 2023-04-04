@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
+//import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:my_story/services/firestore_service.dart';
 
 class FirebaseAuthService {
@@ -18,9 +18,9 @@ class FirebaseAuthService {
       }
     }
 
-    await FirebaseMessaging.instance.getToken().then((token) {
+    /* await FirebaseMessaging.instance.getToken().then((token) {
       deviceToken = token;
-    });
+    });*/
 
     if (email.isNotEmpty) {
       await FirebaseAuth.instance
@@ -35,7 +35,7 @@ class FirebaseAuthService {
       'name': name,
       'verification': false,
       'nameIndex': indexList,
-      'deviceToken': deviceToken,
+      //'deviceToken': deviceToken,
       'subscribers': 0,
       'stories': 0,
       'subscriptions': 0

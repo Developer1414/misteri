@@ -6,7 +6,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:country_codes/country_codes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -35,13 +34,13 @@ void main() async {
   Appodeal.setAppKeys(
       androidAppKey: "2d8510a23c1036d7797d33bc2246e1326b06198ffd5c2300");
 
-  FirebaseMessaging messaging = FirebaseMessaging.instance;
+  //FirebaseMessaging messaging = FirebaseMessaging.instance;
 
   AppMetrica.activate(
       const AppMetricaConfig("235f074a-6dd0-45eb-97a6-e79d79a0609d"));
   AppMetrica.reportEvent('My first AppMetrica event!');
 
-  NotificationSettings settings = await messaging.requestPermission(
+  /*NotificationSettings settings = await messaging.requestPermission(
     alert: true,
     announcement: false,
     badge: true,
@@ -49,16 +48,16 @@ void main() async {
     criticalAlert: false,
     provisional: false,
     sound: true,
-  );
+  );*/
 
   String screenNotif = '';
   String storyIdNotif = '';
 
-  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+  /*FirebaseMessaging.onMessage.listen((RemoteMessage message) {
     print(message.data);
-    /*screenNotif = message.data['screen'];
-    storyIdNotif = message.data['story_id'];*/
-  });
+    screenNotif = message.data['screen'];
+    storyIdNotif = message.data['story_id'];
+  });*/
 
   final String defaultSystemLocale = Platform.localeName;
 

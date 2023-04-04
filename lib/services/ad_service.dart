@@ -16,6 +16,6 @@ class AdService {
     onAdOpened: (Ad ad) => print('Ad opened.'),
     onAdClosed: (Ad ad) => print('Ad closed.'),
     onAdImpression: (Ad ad) => print('Ad impression.'),
-    onNativeAdClicked: (NativeAd ad) => print('Ad clicked.'),
+    //onNativeAdClicked: (NativeAd ad) => print('Ad clicked.'),
   );
 }
